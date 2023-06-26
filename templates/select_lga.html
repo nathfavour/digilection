@@ -1,0 +1,51 @@
+ {% extends 'frame.html' %}
+{% block title %}Polling Unit{% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#lga').change(function() {
+                var selectedLGA = $(this).val();
+                $.ajax({
+                    url: '{% url "lga-results" %}',
+                    method: 'GET',
+                    data: { lga_id: selectedLGA },
+                    success: function(response) {
+                        $('#results-container').html(response);
+                    }
+                });
+            });
+        });
+    </script>
+    
+{% block content %}
+
+<div class= "cont">
+
+<form method="POST" action="{% url 'lga_results' %}">
+        {% csrf_token %}
+        <label for="lga">Select LGA:</label>
+        <select name="lga" id="lga">
+            {% for lga in lgas %}
+            <option value="{{ lga.id }}">{{ lga.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Show Results</button>
+    </form>
+</div>
+    
+    <div id="results-container"></div>
+
+    {% comment %} <style>
+    .cont{
+            background-color: white;
+            border-radius: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 5vh;
+            width: 5vw;
+        }
+    </style> {% endcomment %}
+
+    
+{% endblock %}

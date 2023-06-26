@@ -1,0 +1,24 @@
+<table>
+    <thead>
+        <tr>
+            <th>Result ID</th>
+            <th>Party Abbreviation</th>
+            <th>Entered By User</th>
+            <th>Date Entered</th>
+            <th>User IP Address</th>
+            <th>Total Party Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in summed_results %}
+        <tr>
+            <td>{{ result.results.0.result_id }}</td>
+            <td>{{ result.party_abbreviation }}</td>
+            <td>{{ result.results.0.entered_by_user }}</td>
+            <td>{{ result.results.0.date_entered }}</td>
+            <td>{{ result.results.0.user_ip_address }}</td>
+            <td>{{ result.total_party_score }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

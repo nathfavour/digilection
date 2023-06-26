@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}Polling Unit{% endblock %}
+{% block content %}
+
+
+<form id="filter-form" method="GET">
+    {% csrf_token %}
+    <label for="lga_id">Select LGA:</label>
+    <select id="lga_id" name="lga_id">
+        <option value="">-- Select LGA --</option>
+        {% for lga in lgas %}
+            <option value="{{ lga.lga_id }}">{{ lga.lga_id }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="ward_id">Select Ward:</label>
+    <select id="ward_id" name="ward_id" disabled>
+        <option value="">-- Select Ward --</option>
+    </select>
+
+    <label for="polling_unit_unique_id">Select Polling Unit:</label>
+    <select id="polling_unit_unique_id" name="polling_unit_unique_id" disabled>
+        <option value="">-- Select Polling Unit --</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
+
+<table id="results-table">
+    <thead>
+        <tr>
+            <th>Result Field 1</th>
+            <th>Result Field 2</th>
+            <!-- Add more fields as needed -->
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  $("#lga_id").change(function() {
+    var lgaId = $(this).val();
+    if (lgaId) {
+      $("#ward_id").prop("disabled", false);
+      $.ajax({
+        url: "{% url 'ward_dropdown' %}",
+        data: { lga_id: lgaId },
+        success: function(response) {
+          $("#ward_id").html(response);
+        }
+      });
+    } else {
+      $("#ward_id").prop("disabled", true);
+      $("#ward_id").html('<option value="">-- Select Ward --</option>');
+      $("#polling_unit_unique_id").prop("disabled", true);
+      $("#polling_unit_unique_id").html('<option value="">-- Select Polling Unit --</option>');
+      $("#results-table tbody").empty();
+    }
+  });
+
+  $("#ward_id").change(function() {
+    var wardId = $(this).val();
+    if (wardId) {
+      $("#polling_unit_unique_id").prop("disabled", false);
+      $.ajax({
+        url: "{% url 'polling_unit_dropdown' %}",
+        data: { ward_id: wardId },
+        success: function(response) {
+          $("#polling_unit_unique_id").html(response);
+        }
+      });
+    } else {
+      $("#polling_unit_unique_id").prop("disabled", true);
+      $("#polling_unit_unique_id").html('<option value="">-- Select Polling Unit --</option>');
+      $("#results-table tbody").empty();
+    }
+  });
+
+  $("#filter-form").submit(function(event) {
+    event.preventDefault();
+    var form = $(this);
+    var url = form.attr("action");
+    $.ajax({
+      type: "GET",
+      url: url,
+      data: form.serialize(),
+      success: function(response) {
+        $("#results-table tbody").html(response);
+      }
+    });
+  });
+});
+</script>
+{% endblock %}

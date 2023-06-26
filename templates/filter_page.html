@@ -1,0 +1,63 @@
+{% extends 'frame.html' %}
+{% block content %}
+
+
+    <form method="GET">
+        {% csrf_token %}
+        <label for="lga">LGA:</label>
+        <select name="lga" id="lga">
+            <option value="" selected>Select LGA</option>
+            {% for lga in lgas %}
+            <option value="{{ lga.lga_id }}">{{ lga.lga_id }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+         <br>
+        <br>
+        <label for="ward">Ward:</label>
+        <select name="ward" id="ward">
+            <option value="" selected>Select Ward</option>
+            {% for ward in wards %}
+            <option value="{{ ward.ward_id }}">{{ ward.ward_id }}</option>
+            {% endfor %}
+        </select>
+        <br>
+         <br>
+        <br>
+        <label for="polling_unit">Polling Unit:</label>
+        <select name="polling_unit" id="polling_unit">
+            <option value="" selected>Select Polling Unit</option>
+            {% for polling_unit in polling_units %}
+            <option value="{{ polling_unit.polling_unit_id }}">{{ polling_unit.unique_id }}</option>
+            {% endfor %}
+        </select>
+        <br>
+         <br>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+{% if filtered_polling_units %}
+    <h2>Filtered Polling Units:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Polling Unit ID</th>
+                <th>Name</th>
+                <!-- Add more fields as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for polling_unit in filtered_polling_units %}
+            <tr>
+                <td>{{ polling_unit.unique_id }}</td>
+                <td>{{ polling_unit.name }}</td>
+                <!-- Display other fields here -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% endblock %}

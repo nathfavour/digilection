@@ -1,0 +1,10 @@
+{% extends 'frame.html' %}
+
+{% block content %}
+  <h2>Create a New Polling Unit</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create</button>
+  </form>
+{% endblock %}

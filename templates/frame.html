@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    
+
+    <div class="container">
+    <div class="welcome">Welcome</div>
+    <div class="dropdown">
+      <button class="dropbtn">Menu</button>
+      <div class="dropdown-content">
+<a href="{% url 'polling_unit' %}">Polling Unit</a>
+<a href="{% url 'lga_results' %}">LGA Results</a>
+<a href="{% url 'add_polling_unit' %}"> New Polling Unit</a>
+      </div>
+    </div>
+  </div>
+
+
+    <main class="center-block">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <style>
+
+       .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 80%;
+  background-color: #fff;
+  height: 15%;
+  max-height: 15%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.welcome {
+  text-align: center;
+  font-size: 24px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
+  .center-block{
+   margin: 0 auto;
+    width: 70%;
+  }
+    body {
+        background: linear-gradient(to right, #a8e063, #006266);
+
+    }
+
+    nav {
+        background: #fff;
+        padding: 10px;
+        text-align: center;
+        border-radius: 40px;
+
+    }
+    
+    h1 {
+        font-weight: bold;
+        color: #333;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    footer{
+        margin : 0 auto;
+        width : 70%;
+    }
+    li a {
+        color: #333;
+        text-decoration: none;
+    }
+</style>
+<br/>
+<br/>
+<br/>
+<br/>
+<footer>
+    <p>Bincom test</p>
+    <p>check source code <a href="https://github.com/nathfavour/bincom_test">here</a></p>
+    <p id="currentDateTime"></p>
+</footer>
+
+<script>
+    // JavaScript code to display the current date and time in the footer
+    const currentDateTimeElement = document.getElementById('currentDateTime');
+    const currentDate = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    currentDateTimeElement.textContent = currentDate.toLocaleString('en-US', options);
+</script>
+
+</body>
+</html>
